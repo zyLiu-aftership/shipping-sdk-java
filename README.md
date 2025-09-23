@@ -19,16 +19,16 @@ If you need support using AfterShip products, please contact support@aftership.c
   - [Error Handling](#error-handling)
     - [Error List](#error-list)
   - [Endpoints](#endpoints)
-    - [/couriers](#couriers)
-    - [/locations](#locations)
-    - [/manifests](#manifests)
-    - [/shipper-accounts](#shipper-accounts)
-    - [/labels](#labels)
-    - [/cancel-labels](#cancel-labels)
     - [/address-validations](#address-validations)
     - [/rates](#rates)
-    - [/pickups](#pickups)
+    - [/shipper-accounts](#shipper-accounts)
+    - [/labels](#labels)
+    - [/couriers](#couriers)
+    - [/cancel-labels](#cancel-labels)
     - [/cancel-pickups](#cancel-pickups)
+    - [/locations](#locations)
+    - [/manifests](#manifests)
+    - [/pickups](#pickups)
   - [Help](#help)
   - [License](#license)
 
@@ -48,7 +48,7 @@ Before you begin to integrate:
 <dependency>
     <groupId>com.aftership</groupId>
     <artifactId>shipping-sdk</artifactId>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 
@@ -62,7 +62,7 @@ Create AfterShip instance with options
 | api_key    | string | ✔        | Your AfterShip API key                                                                                                            |
 | auth_type  | enum   |          | Default value: `AuthType.API_KEY` <br > AES authentication: `AuthType.AES` <br > RSA authentication: `AuthType.RSA`               |
 | api_secret | string |          | Required if the authentication type is `AuthType.AES` or `AuthType.RSA`                                                           |
-| domain     | string |          | AfterShip API domain. Default value: https://sandbox-api.aftership.com                                                            |
+| domain     | string |          | AfterShip API domain. Default value: https://sandbox-api.aftership.com                                                                    |
 | user_agent | string |          | User-defined user-agent string, please follow [RFC9110](https://www.rfc-editor.org/rfc/rfc9110#field.user-agent) format standard. |
 | proxy      | string |          | HTTP proxy URL to use for requests. <br > Default value: `null` <br > Example: `http://192.168.0.100:8888`                        |
 | max_retry  | number |          | Number of retries for each request. Default value: 2. Min is 0, Max is 10.                                                        |
@@ -71,15 +71,15 @@ Create AfterShip instance with options
 ### Example
 
 ```java
-import com.aftership.AfterShip;
-import com.aftership.model.PostLabelsRequest;
-import com.aftership.model.PostLabelsResponse;
-import com.aftership.labels.LabelsResource;
+import com.aftership.shipping.ShippingSdk;
+import com.aftership.shipping.model.PostLabelsRequest;
+import com.aftership.shipping.model.PostLabelsResponse;
+import com.aftership.shipping.labels.LabelsResource;
 
 public class App {
     public static void main(String[] args) {
         try {
-            AfterShip.init(
+            ShippingSdk.init(
                     "YOUR_API_KEY"
             );
             PostLabelsRequest request = new PostLabelsRequest();
@@ -161,14 +161,12 @@ The SDK will return an error object when there is any error during the request, 
 
 The AfterShip SDK has the following resource which are exactly the same as the API endpoints:
 
-- CouriersResource
-  - Get all couriers
-- LocationsResource
-  - Get locations
-- ManifestsResource
-  - Get manifests
-  - Create a manifest
-  - Get a manifest
+- AddressValidationsBetaResource
+  - Create an address validation
+- RatesResource
+  - Get rates
+  - Calculate rates
+  - Get a rate
 - ShipperAccountsResource
   - Get shipper accounts
   - Create a shipper account
@@ -181,66 +179,61 @@ The AfterShip SDK has the following resource which are exactly the same as the A
   - Get labels
   - Create a label
   - Get a label
+- CouriersResource
+  - Get all couriers
 - CancelLabelsResource
   - Get the cancelled labels
   - Cancel a label
   - Get a cancelled label
-- AddressValidationsBetaResource
-  - Create an address validation
-- RatesResource
-  - Get rates
-  - Calculate rates
-  - Get a rate
-- PickupsResource
-  - Get pickups
-  - Create a pickup
-  - Get a pickup
 - CancelPickupsResource
   - Get the cancelled pickups
   - Cancel a pickup
   - Get a cancelled pickup
+- LocationsResource
+  - Get locations
+- ManifestsResource
+  - Get manifests
+  - Create a manifest
+  - Get a manifest
+- PickupsResource
+  - Get pickups
+  - Create a pickup
+  - Get a pickup
 
-### /couriers
-**GET** /couriers
-
-```java
-    GetCouriersResponse response = CouriersResource.getCouriers()
-        .fetch();
-    System.out.println(response.getData());
-```
-
-### /locations
-**GET** /locations
-
-```java
-    GetLocationsResponse response = LocationsResource.getLocations()
-        .fetch();
-    System.out.println(response.getData());
-```
-
-### /manifests
-**GET** /manifests
+### /address-validations
+**POST** /address-validations
 
 ```java
-    GetManifestsResponse response = ManifestsResource.getManifests()
-        .fetch();
-    System.out.println(response.getData());
-```
-
-**POST** /manifests
-
-```java
-    PostManifestsRequest request = new PostManifestsRequest();
-    PostManifestsResponse response = ManifestsResource.postManifests()
-        .setPostManifestsRequest(request)
+    PostAddressValidationsRequest request = new PostAddressValidationsRequest();
+    PostAddressValidationsResponse response = AddressValidationsBetaResource.postAddressValidations()
+        .setPostAddressValidationsRequest(request)
         .create();
     System.out.println(response.getData());
 ```
 
-**GET** /manifests/{id}
+### /rates
+**GET** /rates
 
 ```java
-    GetManifestResponse response = ManifestsResource.getManifest()
+    GetRatesResponse response = RatesResource.getRates()
+        .fetch();
+    System.out.println(response.getData());
+```
+
+**POST** /rates
+
+```java
+    PostRatesRequest request = new PostRatesRequest();
+    PostRatesResponse response = RatesResource.postRates()
+        .setPostRatesRequest(request)
+        .create();
+    System.out.println(response.getData());
+```
+
+**GET** /rates/{id}
+
+```java
+    GetRateResponse response = RatesResource.getRate()
         .setId("valid_value")
         .fetch();
     System.out.println(response.getData());
@@ -344,6 +337,15 @@ The AfterShip SDK has the following resource which are exactly the same as the A
     System.out.println(response.getData());
 ```
 
+### /couriers
+**GET** /couriers
+
+```java
+    GetCouriersResponse response = CouriersResource.getCouriers()
+        .fetch();
+    System.out.println(response.getData());
+```
+
 ### /cancel-labels
 **GET** /cancel-labels
 
@@ -372,40 +374,68 @@ The AfterShip SDK has the following resource which are exactly the same as the A
     System.out.println(response.getData());
 ```
 
-### /address-validations
-**POST** /address-validations
+### /cancel-pickups
+**GET** /cancel-pickups
 
 ```java
-    PostAddressValidationsRequest request = new PostAddressValidationsRequest();
-    PostAddressValidationsResponse response = AddressValidationsBetaResource.postAddressValidations()
-        .setPostAddressValidationsRequest(request)
-        .create();
-    System.out.println(response.getData());
-```
-
-### /rates
-**GET** /rates
-
-```java
-    GetRatesResponse response = RatesResource.getRates()
+    GetCancelPickupsResponse response = CancelPickupsResource.getCancelPickups()
         .fetch();
     System.out.println(response.getData());
 ```
 
-**POST** /rates
+**POST** /cancel-pickups
 
 ```java
-    PostRatesRequest request = new PostRatesRequest();
-    PostRatesResponse response = RatesResource.postRates()
-        .setPostRatesRequest(request)
+    PostCancelPickupsRequest request = new PostCancelPickupsRequest();
+    PostCancelPickupsRequestPickup pickup = new PostCancelPickupsRequestPickup();
+    request.setPickup(pickup);
+    PostCancelPickupsResponse response = CancelPickupsResource.postCancelPickups()
+        .setPostCancelPickupsRequest(request)
         .create();
     System.out.println(response.getData());
 ```
 
-**GET** /rates/{id}
+**GET** /cancel-pickups/{id}
 
 ```java
-    GetRateResponse response = RatesResource.getRate()
+    GetCancelPickupResponse response = CancelPickupsResource.getCancelPickup()
+        .setId("valid_value")
+        .fetch();
+    System.out.println(response.getData());
+```
+
+### /locations
+**GET** /locations
+
+```java
+    GetLocationsResponse response = LocationsResource.getLocations()
+        .fetch();
+    System.out.println(response.getData());
+```
+
+### /manifests
+**GET** /manifests
+
+```java
+    GetManifestsResponse response = ManifestsResource.getManifests()
+        .fetch();
+    System.out.println(response.getData());
+```
+
+**POST** /manifests
+
+```java
+    PostManifestsRequest request = new PostManifestsRequest();
+    PostManifestsResponse response = ManifestsResource.postManifests()
+        .setPostManifestsRequest(request)
+        .create();
+    System.out.println(response.getData());
+```
+
+**GET** /manifests/{id}
+
+```java
+    GetManifestResponse response = ManifestsResource.getManifest()
         .setId("valid_value")
         .fetch();
     System.out.println(response.getData());
@@ -438,36 +468,6 @@ The AfterShip SDK has the following resource which are exactly the same as the A
 
 ```java
     GetPickupResponse response = PickupsResource.getPickup()
-        .setId("valid_value")
-        .fetch();
-    System.out.println(response.getData());
-```
-
-### /cancel-pickups
-**GET** /cancel-pickups
-
-```java
-    GetCancelPickupsResponse response = CancelPickupsResource.getCancelPickups()
-        .fetch();
-    System.out.println(response.getData());
-```
-
-**POST** /cancel-pickups
-
-```java
-    PostCancelPickupsRequest request = new PostCancelPickupsRequest();
-    PostCancelPickupsRequestPickup pickup = new PostCancelPickupsRequestPickup();
-    request.setPickup(pickup);
-    PostCancelPickupsResponse response = CancelPickupsResource.postCancelPickups()
-        .setPostCancelPickupsRequest(request)
-        .create();
-    System.out.println(response.getData());
-```
-
-**GET** /cancel-pickups/{id}
-
-```java
-    GetCancelPickupResponse response = CancelPickupsResource.getCancelPickup()
         .setId("valid_value")
         .fetch();
     System.out.println(response.getData());

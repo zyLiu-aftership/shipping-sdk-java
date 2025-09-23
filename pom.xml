@@ -6,7 +6,7 @@
 
     <groupId>com.aftership</groupId>
     <artifactId>shipping-sdk</artifactId>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
 
     <name>AfterShip Shipping SDK</name>
     <description>The official AfterShip Shipping Java API library</description>
@@ -148,12 +148,13 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.sonatype.central</groupId>
-                <artifactId>central-publishing-maven-plugin</artifactId>
-                <version>0.8.0</version>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
                 <extensions>true</extensions>
                 <configuration>
-                    <publishingServerId>central</publishingServerId>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
             </plugin>
         </plugins>
