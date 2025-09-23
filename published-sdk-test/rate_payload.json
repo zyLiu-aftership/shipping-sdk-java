@@ -1,0 +1,72 @@
+{
+	"async": false,
+	"return_shipment": false,
+	"is_document": false,
+	"shipper_accounts": [
+			{
+					"id": "124fa210-5ede-4336-a7a5-b14a11bfee02"
+			}
+	],
+	"shipment": {
+			"delivery_instructions": "Test delivery for FXPAK service",
+			"ship_from": {
+					"contact_name": "Test Shipper",
+					"company_name": "Test Company",
+					"street1": "3259 Hickory Ridge Drive",
+					"street2": "Suite 400",
+					"street3": null,
+					"email": "test@testcompany.com",
+					"city": "Las Vegas",
+					"state": "NV",
+					"postal_code": "89101",
+					"country": "USA",
+					"phone": "7188931534"
+			},
+			"ship_to": {
+					"contact_name": "FedEx Recipient",
+					"company_name": "FedEx Company",
+					"street1": "456 FedEx Street",
+					"street2": null,
+					"street3": null,
+					"email": "fedex@example.com",
+					"city": "Chicago",
+					"state": "IL",
+					"postal_code": "60601",
+					"country": "USA",
+					"phone": "3121234567"
+			},
+			"parcels": [
+					{
+							"description": "Test Package FXPAK",
+							"box_type": "custom",
+							"dimension": {
+									"width": 5,
+									"height": 5,
+									"depth": 5,
+									"unit": "cm"
+							},
+							"weight": {
+									"value": 0.5,
+									"unit": "kg"
+							},
+							"items": [
+									{
+											"description": "Test Item for FedEx",
+											"origin_country": "USA",
+											"quantity": 1,
+											"price": {
+												"amount": 75.00,
+												"currency": "USD"
+											},
+											"weight": {
+												"value": 0.5,
+												"unit": "kg"
+											},
+											"sku": "TEST_SKU_FXPAK_001",
+											"hs_code": "1234.91"
+									}
+							]
+					}
+			]
+	}
+}

@@ -1,0 +1,66 @@
+{
+	"async": false,
+	"return_shipment": false,
+	"is_document": false,
+	"shipper_account": {
+			"id": "124fa210-5ede-4336-a7a5-b14a11bfee02"
+	},
+	"service_type": "fedex_2_day",
+	"paper_size": "default",
+	"shipment": {
+			"ship_from": {
+					"city": "New York",
+					"contact_name": "test test",
+					"country": "USA",
+					"email": "test@test.com",
+					"phone": "17731234567",
+					"postal_code": "10001",
+					"state": "NY",
+					"street1": "13005 S HOUSTON AVE"
+			},
+			"ship_to": {
+					"city": "New York",
+					"company_name": "test test",
+					"contact_name": "test test",
+					"country": "USA",
+					"phone": "+17731234567",
+					"postal_code": "10001",
+					"state": "NY",
+					"street1": "5717 Enterprise Parkway"
+			},
+			"parcels": [
+					{
+							"box_type": "custom",
+							"weight": {
+									"value": 1.1,
+									"unit": "lb"
+							},
+							"dimension": {
+									"height": 1,
+									"width": 1,
+									"depth": 1,
+									"unit": "in"
+							},
+							"items": [
+									{
+											"description": "PX7 S2e Recertified",
+											"item_id": "dc1ba90c1ee2b409ab61cd76b0",
+											"quantity": 1,
+											"price": {
+													"amount": 229,
+													"currency": "USD"
+											},
+											"weight": {
+													"value": 1,
+													"unit": "lb"
+											},
+											"sku": "301019-51-00-308"
+									}
+							]
+					}
+			]
+	},
+	"file_type": "pdf",
+	"order_number": "BWUS00032946",
+	"external_reference": "VCBQABSE"
+}
