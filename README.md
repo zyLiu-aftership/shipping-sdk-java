@@ -19,16 +19,16 @@ If you need support using AfterShip products, please contact support@aftership.c
   - [Error Handling](#error-handling)
     - [Error List](#error-list)
   - [Endpoints](#endpoints)
-    - [/address-validations](#address-validations)
+    - [/locations](#locations)
     - [/rates](#rates)
     - [/shipper-accounts](#shipper-accounts)
     - [/labels](#labels)
     - [/couriers](#couriers)
     - [/cancel-labels](#cancel-labels)
-    - [/cancel-pickups](#cancel-pickups)
-    - [/locations](#locations)
+    - [/address-validations](#address-validations)
     - [/manifests](#manifests)
     - [/pickups](#pickups)
+    - [/cancel-pickups](#cancel-pickups)
   - [Help](#help)
   - [License](#license)
 
@@ -48,7 +48,7 @@ Before you begin to integrate:
 <dependency>
     <groupId>com.aftership</groupId>
     <artifactId>shipping-sdk</artifactId>
-    <version>3.0.0</version>
+    <version>3.0.1</version>
 </dependency>
 ```
 
@@ -161,8 +161,8 @@ The SDK will return an error object when there is any error during the request, 
 
 The AfterShip SDK has the following resource which are exactly the same as the API endpoints:
 
-- AddressValidationsBetaResource
-  - Create an address validation
+- LocationsResource
+  - Get locations
 - RatesResource
   - Get rates
   - Calculate rates
@@ -185,12 +185,8 @@ The AfterShip SDK has the following resource which are exactly the same as the A
   - Get the cancelled labels
   - Cancel a label
   - Get a cancelled label
-- CancelPickupsResource
-  - Get the cancelled pickups
-  - Cancel a pickup
-  - Get a cancelled pickup
-- LocationsResource
-  - Get locations
+- AddressValidationsBetaResource
+  - Create an address validation
 - ManifestsResource
   - Get manifests
   - Create a manifest
@@ -199,15 +195,17 @@ The AfterShip SDK has the following resource which are exactly the same as the A
   - Get pickups
   - Create a pickup
   - Get a pickup
+- CancelPickupsResource
+  - Get the cancelled pickups
+  - Cancel a pickup
+  - Get a cancelled pickup
 
-### /address-validations
-**POST** /address-validations
+### /locations
+**GET** /locations
 
 ```java
-    PostAddressValidationsRequest request = new PostAddressValidationsRequest();
-    PostAddressValidationsResponse response = AddressValidationsBetaResource.postAddressValidations()
-        .setPostAddressValidationsRequest(request)
-        .create();
+    GetLocationsResponse response = LocationsResource.getLocations()
+        .fetch();
     System.out.println(response.getData());
 ```
 
@@ -374,42 +372,14 @@ The AfterShip SDK has the following resource which are exactly the same as the A
     System.out.println(response.getData());
 ```
 
-### /cancel-pickups
-**GET** /cancel-pickups
+### /address-validations
+**POST** /address-validations
 
 ```java
-    GetCancelPickupsResponse response = CancelPickupsResource.getCancelPickups()
-        .fetch();
-    System.out.println(response.getData());
-```
-
-**POST** /cancel-pickups
-
-```java
-    PostCancelPickupsRequest request = new PostCancelPickupsRequest();
-    PostCancelPickupsRequestPickup pickup = new PostCancelPickupsRequestPickup();
-    request.setPickup(pickup);
-    PostCancelPickupsResponse response = CancelPickupsResource.postCancelPickups()
-        .setPostCancelPickupsRequest(request)
+    PostAddressValidationsRequest request = new PostAddressValidationsRequest();
+    PostAddressValidationsResponse response = AddressValidationsBetaResource.postAddressValidations()
+        .setPostAddressValidationsRequest(request)
         .create();
-    System.out.println(response.getData());
-```
-
-**GET** /cancel-pickups/{id}
-
-```java
-    GetCancelPickupResponse response = CancelPickupsResource.getCancelPickup()
-        .setId("valid_value")
-        .fetch();
-    System.out.println(response.getData());
-```
-
-### /locations
-**GET** /locations
-
-```java
-    GetLocationsResponse response = LocationsResource.getLocations()
-        .fetch();
     System.out.println(response.getData());
 ```
 
@@ -468,6 +438,36 @@ The AfterShip SDK has the following resource which are exactly the same as the A
 
 ```java
     GetPickupResponse response = PickupsResource.getPickup()
+        .setId("valid_value")
+        .fetch();
+    System.out.println(response.getData());
+```
+
+### /cancel-pickups
+**GET** /cancel-pickups
+
+```java
+    GetCancelPickupsResponse response = CancelPickupsResource.getCancelPickups()
+        .fetch();
+    System.out.println(response.getData());
+```
+
+**POST** /cancel-pickups
+
+```java
+    PostCancelPickupsRequest request = new PostCancelPickupsRequest();
+    PostCancelPickupsRequestPickup pickup = new PostCancelPickupsRequestPickup();
+    request.setPickup(pickup);
+    PostCancelPickupsResponse response = CancelPickupsResource.postCancelPickups()
+        .setPostCancelPickupsRequest(request)
+        .create();
+    System.out.println(response.getData());
+```
+
+**GET** /cancel-pickups/{id}
+
+```java
+    GetCancelPickupResponse response = CancelPickupsResource.getCancelPickup()
         .setId("valid_value")
         .fetch();
     System.out.println(response.getData());
